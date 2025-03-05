@@ -21,15 +21,12 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var buttonRegister: Button
     private lateinit var textViewLogin: TextView
 
+    // Listener de FirebaseAuth
+    //private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_register)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         // Inicializamos el objeto FirebaseAuth
         auth = FirebaseAuth.getInstance()
@@ -46,6 +43,9 @@ class RegisterActivity : AppCompatActivity() {
             this.goToLogin()
         }
 
+        // Validar si existe un usuario actiuvo
+        //this.checkUser()
+
     }
 
     private fun register(email: String, password: String) {
@@ -53,6 +53,8 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener{ task ->
                 if (task.isSuccessful){
                     val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }.addOnFailureListener { exception ->
                 Toast.makeText(
@@ -67,4 +69,27 @@ class RegisterActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        auth.addAuthStateListener(authStateListener)
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        auth.removeAuthStateListener(authStateListener)
+//    }
+//
+//    private fun checkUser() {
+//        // Verificacion del ususario
+//        authStateListener = FirebaseAuth.AuthStateListener { auth ->
+//            if (auth.currentUser != null) {
+//                // Cambiando la vista
+//
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//        }
+//    }
 }
