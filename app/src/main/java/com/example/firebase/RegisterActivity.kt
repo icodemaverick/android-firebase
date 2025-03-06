@@ -22,7 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var textViewLogin: TextView
 
     // Listener de FirebaseAuth
-    //private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         // Validar si existe un usuario actiuvo
-        //this.checkUser()
+        this.checkUser()
 
     }
 
@@ -70,26 +70,26 @@ class RegisterActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        auth.addAuthStateListener(authStateListener)
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        auth.removeAuthStateListener(authStateListener)
-//    }
-//
-//    private fun checkUser() {
-//        // Verificacion del ususario
-//        authStateListener = FirebaseAuth.AuthStateListener { auth ->
-//            if (auth.currentUser != null) {
-//                // Cambiando la vista
-//
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivity(intent)
-//                finish()
-//            }
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        auth.addAuthStateListener(authStateListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        auth.removeAuthStateListener(authStateListener)
+    }
+
+    private fun checkUser() {
+        // Verificacion del ususario
+        authStateListener = FirebaseAuth.AuthStateListener { auth ->
+            if (auth.currentUser != null) {
+                // Cambiando la vista
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
 }
